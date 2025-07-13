@@ -1,0 +1,275 @@
+{
+  "question_0": {
+    "question": "What is the purpose of the Nmfaf_3daDataManagement_Deconfigure service operation? [3GPP Release 18]",
+    "option_1": "To configure the MFAF to map data or analytics received by the MFAF to out-bound notification endpoints",
+    "option_2": "To configure the MFAF to stop mapping data or analytics received by the MFAF to out-bound notification endpoints",
+    "option_3": "To supply data or analytics from the MFAF to notification endpoints",
+    "option_4": "To fetch data or analytics from the MFAF based on fetch instructions",
+    "answer": "option_2: To configure the MFAF to stop mapping data or analytics received by the MFAF to out-bound notification endpoints",
+    "explanation": "The Nmfaf_3daDataManagement_Deconfigure service operation is used to stop mapping data or analytics received by the MFAF to one or more out-bound notification endpoints.",
+    "category": "Standards specifications"
+  },
+  "question_4": {
+    "question": "How does a supporting UE attach to the same core network operator from which it detached in a shared network? [3GPP Release 17]",
+    "option_1": "It requests the core network node to remember its previous selection.",
+    "option_2": "It uses information stored in the UE when it was detached.",
+    "option_3": "It relies on the SIM/USIM card for information.",
+    "option_4": "It performs a fresh attach procedure.",
+    "answer": "option_2: It uses information stored in the UE when it was detached.",
+    "explanation": "A supporting UE in a shared network attaches to the same core network operator it detached from by using information stored in the UE when it was detached.",
+    "category": "Standards specifications"
+  },
+  "question_11": {
+    "question": "When can the setting of the Privacy exception list be changed? [3GPP Release 17]",
+    "option_1": "Never",
+    "option_2": "Only during emergency services",
+    "option_3": "Anytime",
+    "option_4": "Only with operator permission",
+    "answer": "option_3: Anytime",
+    "explanation": "The setting of the Privacy exception list can be changed anytime.",
+    "category": "Standards specifications"
+  },
+  "question_12": {
+    "question": "What does the NEF notify to the AF after determining the suitable DNAI(s)? [3GPP Release 18]",
+    "option_1": "AF Identifier",
+    "option_2": "EAS address information",
+    "option_3": "DNN",
+    "option_4": "DNAI(s) or the updated DNAI information",
+    "answer": "option_4: DNAI(s) or the updated DNAI information",
+    "explanation": "After determining the suitable DNAI(s), NEF notifies the DNAI(s) or the updated DNAI information to AF.",
+    "category": "Standards specifications"
+  },
+  "question_14": {
+    "question": "In online charging, how are chargeable events transformed into charging events? [3GPP Release 18]",
+    "option_1": "By the CTF",
+    "option_2": "By the OCF",
+    "option_3": "By the CGF",
+    "option_4": "By the CHF",
+    "answer": "option_2: By the OCF",
+    "explanation": "The CTF transforms each chargeable event into a charging event and forwards these charging events to the OCF in real-time.",
+    "category": "Standards specifications"
+  },
+  "question_19": {
+    "question": "What is the purpose of the PSFCH channel in NR V2X sidelink? [3GPP Release 16]",
+    "option_1": "To transmit Uplink and Downlink V2X messages",
+    "option_2": "To transmit HARQ feedback for unicast and groupcast",
+    "option_3": "To transmit sidelink synchronization signals",
+    "option_4": "To transmit physical layer structure information",
+    "option_5": "To transmit resource allocation configurations",
+    "answer": "option_2: To transmit HARQ feedback for unicast and groupcast",
+    "explanation": "The PSFCH channel in NR V2X sidelink is used to transmit sidelink HARQ feedback for unicast and groupcast services. It provides feedback on the success or failure of the whole transport block and triggers for channel state information (CSI) feedback.",
+    "category": "Standards overview"
+  },
+  "question_23": {
+    "question": "Which feature proposes to integrate selected WLAN direct discovery technologies as an alternative technology for ProSe Direct Discovery? [3GPP Release 15]",
+    "option_1": "Unlicensed Spectrum Offloading System",
+    "option_2": "Enhancements to LTE operation in unlicensed spectrum",
+    "option_3": "Voice services over WLAN",
+    "option_4": "WLAN Offloading System",
+    "answer": "option_4: WLAN Offloading System",
+    "explanation": "The feature that proposes to integrate selected WLAN direct discovery technologies as an alternative technology for ProSe Direct Discovery is the WLAN Offloading System.",
+    "category": "Standards overview"
+  },
+  "question_29": {
+    "question": "When can there be two N3 tunnel terminations at the RAN for a PDU Session? [3GPP Release 18]",
+    "option_1": "When there are multiple PDU Session Ids for the PDU Session",
+    "option_2": "When the QoS Flows of the PDU Session are split across the two RATs",
+    "option_3": "When the PDU Session belongs to a specific Network Slice",
+    "option_4": "When the Master RAN node is congested",
+    "option_5": "When the Secondary RAN node is congested",
+    "answer": "option_2: When the QoS Flows of the PDU Session are split across the two RATs",
+    "explanation": "If the DL User Plane traffic of some QoS Flows of a PDU Session are directed to the Secondary RAN Node while the remaining QoS Flows are directed to the Master RAN Node, there will be two N3 tunnel terminations at the RAN for such PDU Session.",
+    "category": "Standards specifications"
+  },
+  "question_37": {
+    "question": "Which NGAP procedure is used for inter-system load balancing? [3GPP Release 17]",
+    "option_1": "eNB Configuration Transfer",
+    "option_2": "Downlink RAN Configuration Transfer",
+    "option_3": "Uplink RAN Configuration Transfer",
+    "option_4": "MME Configuration Transfer",
+    "answer": "option_3: Uplink RAN Configuration Transfer",
+    "explanation": "The NGAP procedure used for inter-system load balancing is Uplink RAN Configuration Transfer.",
+    "category": "Standards overview"
+  },
+  "question_41": {
+    "question": "What is the purpose of the Validity Period for predictions? [3GPP Release 18]",
+    "option_1": "To indicate the area of interest",
+    "option_2": "To provide the Target of Analytics Reporting",
+    "option_3": "To determine the Reporting Threshold",
+    "option_4": "To define the time window",
+    "option_5": "To specify the maximum number of objects",
+    "answer": "option_4: To define the time window",
+    "explanation": "The Validity Period for predictions is used to define the time window for which the predictions are valid.",
+    "category": "Standards specifications"
+  },
+  "question_42": {
+    "question": "What is the purpose of the MCImp-MC_ARCH work item? [3GPP Release 14]",
+    "option_1": "To specify a common functional architecture for MCVideo",
+    "option_2": "To specify a common functional architecture for MCData",
+    "option_3": "To specify a common functional architecture for all mission critical services",
+    "option_4": "To specify a common functional architecture for MCPTT only",
+    "answer": "option_3: To specify a common functional architecture for all mission critical services",
+    "explanation": "The main objective of the MCImp-MC_ARCH work item is to specify a common functional architecture for all mission critical services.",
+    "category": "Standards overview"
+  },
+  "question_45": {
+    "question": "What should the UE consider if it cannot detect any cell meeting the S criterion on a frequency for sidelink operation? [3GPP Release 17]",
+    "option_1": "Out-of-coverage for sidelink operation on that frequency",
+    "option_2": "Out-of-coverage for V2X sidelink communication on that frequency",
+    "option_3": "Out-of-coverage for NR sidelink communication on that frequency",
+    "option_4": "In-coverage for NR sidelink communication on that frequency",
+    "option_5": "In-coverage for sidelink operation on that frequency",
+    "answer": "option_1: Out-of-coverage for sidelink operation on that frequency",
+    "explanation": "If the UE cannot detect any cell on a frequency meeting the S criterion, it shall consider itself to be out-of-coverage for sidelink operation on that frequency.",
+    "category": "Standards specifications"
+  },
+  "question_46": {
+    "question": "What is the purpose of the Member UE selection assistance functionality hosted by NEF? [3GPP Release 18]",
+    "option_1": "To provide filtering criteria for AF's inputs",
+    "option_2": "To collect corresponding data from relevant 5GC NFs",
+    "option_3": "To select member UEs for AF's application operations",
+    "option_4": "To provide QoS for the updated list of UEs",
+    "option_5": "To assist the AI/ML application server in scheduling UEs",
+    "answer": "option_3: To select member UEs for AF's application operations",
+    "explanation": "The Member UE selection assistance functionality hosted by NEF is used to assist the AF in selecting member UEs that can be used in application operations such as AI/ML based applications.",
+    "category": "Standards specifications"
+  },
+  "question_49": {
+    "question": "When does the AMF enable or disable the 5G access stratum time distribution for a UE? [3GPP Release 18]",
+    "option_1": "When UE is in CM-REJECTED state",
+    "option_2": "When UE is in CM-IDLE state",
+    "option_3": "When UE is in CM-REGISTERED state",
+    "option_4": "When UE is in CM-DISCONNECTED state",
+    "option_5": "When UE is in CM-CONNECTED state",
+    "answer": "option_5: When UE is in CM-CONNECTED state",
+    "explanation": "If the AMF receives start and stop times, it sends a message to the NG-RAN to enable or disable the 5G access stratum time distribution according to the expiry of start and stop times when the UE is in CM-CONNECTED state.",
+    "category": "Standards specifications"
+  },
+  "question_53": {
+    "question": "When can target UEs be positioned for lawful interception services? [3GPP Release 17]",
+    "option_1": "Only if the target UE user authorizes it",
+    "option_2": "Only if the privacy attribute value allows positioning",
+    "option_3": "Under all circumstances required by local regulatory requirements",
+    "option_4": "Never",
+    "answer": "option_3: Under all circumstances required by local regulatory requirements",
+    "explanation": "Target UEs can be positioned for lawful interception services under all circumstances required by local regulatory requirements.",
+    "category": "Standards specifications"
+  },
+  "question_60": {
+    "question": "What are DCI formats with CRC scrambled by MCCH-RNTI or G-RNTI referred to as? [3GPP Release 17]",
+    "option_1": "Multicast DCI formats",
+    "option_2": "Broadcast DCI formats",
+    "option_3": "Unicast DCI formats",
+    "option_4": "PUCCH DCI formats",
+    "answer": "option_2: Broadcast DCI formats",
+    "explanation": "DCI formats with CRC scrambled by MCCH-RNTI or G-RNTI for broadcast scheduling PDSCH receptions are referred to as broadcast DCI formats.",
+    "category": "Standards specifications"
+  },
+  "question_70": {
+    "question": "What kind of access can enterprise UEs have to non-public networks? [3GPP Release 17]",
+    "option_1": "Access to the non-public network of the enterprise only",
+    "option_2": "Access to both a non-public network and a PLMN",
+    "option_3": "Access to a PLMN only",
+    "option_4": "Access to a PLMN and a non-public network via a different network",
+    "option_5": "Access to a PLMN and a non-public network via multiple subscriptions",
+    "answer": "option_2: Access to both a non-public network and a PLMN",
+    "explanation": "Some enterprise UEs can be restricted to only access the non-public network of the enterprise, while others can access both a non-public network and a PLMN where specifically allowed.",
+    "category": "Standards specifications"
+  },
+  "question_73": {
+    "question": "What is the purpose of the TRP Measurement Grid? [3GPP Release 18]",
+    "option_1": "To calculate the CDF of the EIRP/EIS distribution in 3D",
+    "option_2": "To determine the total power radiated by the DUT in the TX beam peak direction",
+    "option_3": "To determine the TX and RX beam peak direction",
+    "option_4": "To perform TRP measurements taken on the sampling grid",
+    "option_5": "To perform 3D Throughput/RSRP/EIS scans for RX beam peak direction",
+    "answer": "option_4: To perform TRP measurements taken on the sampling grid",
+    "explanation": "The TRP Measurement Grid is used to perform TRP measurements taken on the sampling grid to determine the total power radiated by the DUT in the TX beam peak direction.",
+    "category": "Standards specifications"
+  },
+  "question_74": {
+    "question": "What action is necessary to get access to services in Idle mode? [3GPP Release 17]",
+    "option_1": "Camping on a cell",
+    "option_2": "Performing location registration",
+    "option_3": "Performing CN type selection",
+    "option_4": "Performing RNA update",
+    "option_5": "All of the above",
+    "answer": "option_1: Camping on a cell",
+    "explanation": "Camping on a cell is necessary to get access to services in Idle mode.",
+    "category": "Standards specifications"
+  },
+  "question_76": {
+    "question": "How does EC-GSM-IoT improve coverage performance for Cellular IoT devices? [3GPP Release 14]",
+    "option_1": "By increasing the transmit power",
+    "option_2": "By reducing the MS complexity",
+    "option_3": "By using modified channel coding schemes",
+    "option_4": "By adding more timeslot resources",
+    "answer": "option_3: By using modified channel coding schemes",
+    "explanation": "EC-GSM-IoT improves the coverage performance of Cellular IoT devices by using modified channel coding schemes.",
+    "category": "Standards overview"
+  },
+  "question_80": {
+    "question": "What triggers the NF/NF Service Context Transfer Push procedure? [3GPP Release 18]",
+    "option_1": "The Target NF/NF Service receiving a notification about the decommissioning",
+    "option_2": "The Source NF informing the NRF about the decommissioning",
+    "option_3": "The Source NF sending a request to the Target NF/NF Service",
+    "option_4": "The Target NF/NF Service receiving a request from the Source NF/NF Service",
+    "option_5": "The Target NF/NF Service setting up necessary information about the new context location",
+    "answer": "option_3: The Source NF sending a request to the Target NF/NF Service",
+    "explanation": "When triggered, the Source NF/NF Service acting as an NF Service Consumer sends its Context to the Target NF/NF Service acting as an NF Service Producer by sending a request.",
+    "category": "Standards specifications"
+  },
+  "question_87": {
+    "question": "Which 5G vertical domain is the maritime domain a part of? [3GPP Release 16]",
+    "option_1": "Public safety domain",
+    "option_2": "Automotive domain",
+    "option_3": "Factory automation domain",
+    "option_4": "Satellite industrial domain",
+    "option_5": "None of the above",
+    "answer": "option_5: None of the above",
+    "explanation": "The maritime domain is one of the 5G vertical domains in 3GPP.",
+    "category": "Standards overview"
+  },
+  "question_96": {
+    "question": "What is the purpose of the User Configuration mechanism in the IMS Multimedia Telephony service? [3GPP Release 17]",
+    "option_1": "To support synchronization of communication logs between multiple devices",
+    "option_2": "To indicate which identities are active or inactive on a specific UE",
+    "option_3": "To provide user preferences for media handling capabilities",
+    "option_4": "To modify the Caller Identity Analytics function",
+    "answer": "option_2: To indicate which identities are active or inactive on a specific UE",
+    "explanation": "The User Configuration mechanism allows an authorized user to indicate which identities are active or inactive on a specific UE.",
+    "category": "Standards specifications"
+  },
+  "question_100": {
+    "question": "What is the purpose of packet buffering in Edge Relocation? [3GPP Release 18]",
+    "option_1": "To prevent packet loss during EAS migration",
+    "option_2": "To optimize user plane latency",
+    "option_3": "To enable simultaneous connectivity over source and target PSA",
+    "option_4": "To eliminate the need for EAS IP replacement",
+    "answer": "option_1: To prevent packet loss during EAS migration",
+    "explanation": "Packet buffering is used in Edge Relocation to buffer uplink packets and prevent packet loss when the application client sends UL packets to a new EAS before it is ready to handle them.",
+    "category": "Standards specifications"
+  },
+  "question_101": {
+    "question": "What does the Multi-Identity (MiD) service enable? [3GPP Release 16]",
+    "option_1": "A user to use different UEs registered under different public user identities",
+    "option_2": "A user to use different identities on a single UE",
+    "option_3": "Call distribution to different members of a group or firm",
+    "option_4": "A user to share identities with another user",
+    "option_5": "A user to use different UEs that are registered under the same public user identity",
+    "answer": "option_2: A user to use different identities on a single UE",
+    "explanation": "The Multi-Identity (MiD) service enables a user to use different identities on a single UE.",
+    "category": "Standards overview"
+  },
+  "question_108": {
+    "question": "What is the maximum number of PDU Sessions? [3GPP Release 17]",
+    "option_1": "128",
+    "option_2": "32",
+    "option_3": "8",
+    "option_4": "256",
+    "option_5": "64",
+    "answer": "option_4: 256",
+    "explanation": "The maximum number of PDU Sessions is 256.",
+    "category": "Standards specifications"
+  }
+}

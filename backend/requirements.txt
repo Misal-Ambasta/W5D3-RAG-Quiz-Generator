@@ -1,0 +1,49 @@
+# Core framework
+fastapi 
+uvicorn 
+
+# LangChain for LLM integration and tools
+langchain>=0.3
+langchain-core
+langchain-community
+langchain-huggingface
+langchain-google-genai
+langchain-weaviate
+
+# Sentence-transformers for embeddings
+sentence-transformers
+
+# BM25 for sparse retrieval
+rank-bm25
+
+# Vector database 
+weaviate-client>=4.0.0
+
+# Redis client
+redis   
+
+# Document parsing
+pdfplumber  
+python-docx 
+beautifulsoup4  
+lxml    
+
+# Cross-encoder models via Hugging Face
+transformers    
+torch   
+
+# Environment variable management
+python-dotenv
+
+# Monitoring & logging
+loguru  
+
+# Testing
+pytest  
+httpx   
+
+# Phase 9 & 10 dependencies
+google-generativeai>=0.3.2
+aiohttp>=3.9.0
+requests>=2.31.0   
+google-ai-generativelanguage==0.6.15
