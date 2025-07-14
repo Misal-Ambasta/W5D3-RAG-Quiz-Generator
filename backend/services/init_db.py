@@ -418,7 +418,14 @@ class DatabaseManager:
                 raw_content TEXT,
                 metadata TEXT,  -- JSON string for additional metadata
                 processing_status TEXT DEFAULT 'pending',  -- pending, processed, failed
-                error_message TEXT
+                error_message TEXT,
+                learning_objectives TEXT,  -- JSON array of learning objective IDs
+                content_length INTEGER DEFAULT 0,
+                chunks_created INTEGER DEFAULT 0,
+                status TEXT DEFAULT 'processing',  -- processing, processed, failed
+                vector_indexed BOOLEAN DEFAULT FALSE,
+                upload_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                processed_date DATETIME
             )
         """)
     
@@ -429,8 +436,9 @@ class DatabaseManager:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 document_id INTEGER NOT NULL,
                 chunk_index INTEGER NOT NULL,
-                chunk_text TEXT NOT NULL,
                 chunk_size INTEGER NOT NULL,
+                content TEXT NOT NULL,
+                chunk_text TEXT,
                 start_position INTEGER,
                 end_position INTEGER,
                 embedding_vector TEXT,  -- JSON string of embedding vector
@@ -1040,85 +1048,6 @@ if __name__ == "__main__":
     db_manager.create_indexes()
     
     # Test with sample data
-    session_id = create_quiz_session(db_manager)
-    print(f"Created session: {session_id}")
     
-    # Store a sample document
-    doc_id = store_document(
-        db_manager,
-        filename="sample.pdf",
-        original_filename="Chapter_1_Biology.pdf",
-        file_type="pdf",
-        file_size=1024000,
-        content_hash="abc123",
-        raw_content="Sample biology content about photosynthesis...",
-        metadata='{"subject": "biology", "chapter": 1}'
-    )
-    print(f"Document ID: {doc_id}")
-    
-    if doc_id is not None and doc_id > 0:
-        # Store a sample chunk only if document exists
-        chunk_id = store_document_chunk(
-            db_manager,
-            document_id=doc_id,
-            chunk_index=0,
-            chunk_text="Photosynthesis is the process by which plants convert light energy into chemical energy.",
-            chunk_size=88,
-            start_pos=0,
-            end_pos=88,
-            embedding_vector='[0.1, 0.2, 0.3, 0.4, 0.5]',
-            chunk_metadata='{"section": "introduction", "page": 1}'
-        )
-        print(f"Chunk ID: {chunk_id}")
-        
-        # Test storing a second chunk
-        chunk_id2 = store_document_chunk(
-            db_manager,
-            document_id=doc_id,
-            chunk_index=1,
-            chunk_text="Plants use chlorophyll to capture light energy during photosynthesis.",
-            chunk_size=68,
-            start_pos=88,
-            end_pos=156,
-            embedding_vector='[0.2, 0.3, 0.4, 0.5, 0.6]',
-            chunk_metadata='{"section": "details", "page": 1}'
-        )
-        print(f"Second chunk ID: {chunk_id2}")
-    else:
-        print("Failed to create or find document for chunk insertion.")
-    
-    # Test duplicate document insertion
-    print("\n--- Testing duplicate document insertion ---")
-    doc_id2 = store_document(
-        db_manager,
-        filename="sample2.pdf",  # Different filename
-        original_filename="Chapter_1_Biology_Copy.pdf",
-        file_type="pdf",
-        file_size=1024000,
-        content_hash="abc123",  # Same content hash
-        raw_content="Sample biology content about photosynthesis...",
-        metadata='{"subject": "biology", "chapter": 1}'
-    )
-    print(f"Duplicate document ID: {doc_id2}")
-    
-    # Test duplicate chunk insertion
-    print("\n--- Testing duplicate chunk insertion ---")
-    if doc_id is not None and doc_id > 0:
-        chunk_id3 = store_document_chunk(
-            db_manager,
-            document_id=doc_id,
-            chunk_index=0,  # Same index as first chunk
-            chunk_text="Different text but same index",
-            chunk_size=32,
-            start_pos=0,
-            end_pos=32,
-            embedding_vector='[0.7, 0.8, 0.9, 1.0, 1.1]',
-            chunk_metadata='{"section": "duplicate_test", "page": 1}'
-        )
-        print(f"Duplicate chunk ID: {chunk_id3}")
-    
-    # Get database stats
-    stats = db_manager.get_database_stats()
-    print(f"\nDatabase stats: {stats}")
     
     print("\nDatabase schema created and tested successfully!")

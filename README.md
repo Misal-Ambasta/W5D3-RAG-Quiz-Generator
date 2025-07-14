@@ -19,6 +19,8 @@ The Automated Quiz Generator is an educational tool that automatically creates q
 - **Multiple Question Types**: Supports multiple-choice, true/false, short answer, and fill-in-the-blank questions
 - **Session Management**: Anonymous session system for quiz taking and result tracking
 - **Feedback Collection**: Gathers user feedback on quiz and question quality
+- **Customizable Quiz Generation**: Select difficulty level and number of questions (up to 25)
+- **Client-side Result Processing**: Generate quiz results locally for improved performance
 
 ## Architecture
 

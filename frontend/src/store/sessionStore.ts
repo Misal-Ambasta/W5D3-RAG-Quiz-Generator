@@ -19,7 +19,8 @@ export interface Session {
 export interface QuizQuestion {
   id: number;
   question: string;
-  question_type: string;
+  question_type?: string;
+  type?: string;
   options?: string[];
   correct_answer: string;
   explanation?: string;
@@ -43,15 +44,43 @@ export const useSessionStore = () => {
   const [quizResults, setQuizResults] = useState<QuizResult[]>([]);
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
   
-  // Load session from localStorage on mount
+  // Load data from localStorage on mount
   useEffect(() => {
     const savedSession = localStorage.getItem('quiz_session');
+    const savedQuestions = localStorage.getItem('quiz_questions');
+    const savedAnswers = localStorage.getItem('quiz_answers');
+    const savedResults = localStorage.getItem('quiz_results');
+    
     if (savedSession) {
       try {
         setSession(JSON.parse(savedSession));
       } catch (error) {
-        console.error('Failed to parse saved session:', error);
-        localStorage.removeItem('quiz_session');
+        console.error('Error parsing saved session:', error);
+      }
+    }
+    
+    if (savedQuestions) {
+      try {
+        setQuizQuestions(JSON.parse(savedQuestions));
+      } catch (error) {
+        console.error('Error parsing saved questions:', error);
+      }
+    }
+    
+    if (savedAnswers) {
+      try {
+        setUserAnswers(JSON.parse(savedAnswers));
+      } catch (error) {
+        console.error('Error parsing saved answers:', error);
+      }
+    }
+    
+    if (savedResults) {
+      try {
+        setQuizResults(JSON.parse(savedResults));
+        setIsQuizCompleted(true);
+      } catch (error) {
+        console.error('Error parsing saved results:', error);
       }
     }
   }, []);
@@ -62,6 +91,27 @@ export const useSessionStore = () => {
       localStorage.setItem('quiz_session', JSON.stringify(session));
     }
   }, [session]);
+  
+  // Save quiz questions to localStorage when they change
+  useEffect(() => {
+    if (quizQuestions.length > 0) {
+      localStorage.setItem('quiz_questions', JSON.stringify(quizQuestions));
+    }
+  }, [quizQuestions]);
+  
+  // Save user answers to localStorage when they change
+  useEffect(() => {
+    if (Object.keys(userAnswers).length > 0) {
+      localStorage.setItem('quiz_answers', JSON.stringify(userAnswers));
+    }
+  }, [userAnswers]);
+  
+  // Save quiz results to localStorage when they change
+  useEffect(() => {
+    if (quizResults.length > 0) {
+      localStorage.setItem('quiz_results', JSON.stringify(quizResults));
+    }
+  }, [quizResults]);
   
   // Actions
   const setSessionData = (newSession: Session) => {
@@ -76,6 +126,9 @@ export const useSessionStore = () => {
     setQuizResults([]);
     setIsQuizCompleted(false);
     localStorage.removeItem('quiz_session');
+    localStorage.removeItem('quiz_questions');
+    localStorage.removeItem('quiz_answers');
+    localStorage.removeItem('quiz_results');
   };
   
   const setQuizData = (questions: QuizQuestion[]) => {

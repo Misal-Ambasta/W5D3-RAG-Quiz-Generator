@@ -102,10 +102,10 @@ async def upload_document_langchain(
     Integrates phases 1-7: parsing, chunking, objectives, indexing, retrieval setup
     """
     try:
-        # Validate file
+        # Validate file 
         if not file.filename:
             raise HTTPException(status_code=400, detail="No filename provided")
-        
+        print("Received file:", file.filename)
         # Check file extension
         file_ext = Path(file.filename).suffix.lower()
         supported_extensions = {'.pdf', '.docx', '.html', '.txt'}
@@ -125,10 +125,10 @@ async def upload_document_langchain(
         content = await file.read()
         with open(temp_file_path, 'wb') as f:
             f.write(content)
-        
+        print("temp_file_path:", temp_file_path)
         # Process document using LangChain service
         result = rag_service.process_document(temp_file_path, file.filename)
-        
+        print("Processing result:", result)
         # Clean up temporary file
         try:
             temp_file_path.unlink()

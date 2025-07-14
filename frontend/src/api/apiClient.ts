@@ -52,7 +52,7 @@ const apiClient = {
   },
   
   // Quiz generation and submission
-  generateQuiz: async (topic: string, questionCount: number = 5, difficulty: string = 'medium') => {
+  generateQuiz: async (topic: string, questionCount: number = 5, difficulty: string = 'easy') => {
     return api.post('/langchain/generate-quiz', {
       topic,
       question_count: questionCount,

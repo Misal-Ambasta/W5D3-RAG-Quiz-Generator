@@ -36,6 +36,12 @@ const QuizResults = ({
     return `${(ms / 1000).toFixed(1)}s`;
   };
   
+  // Format question type
+  const formatQuestionType = (type: string | undefined) => {
+    if (!type) return '';
+    return type.replace('_', ' ');
+  };
+  
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-2">Quiz Results</h2>
@@ -59,19 +65,24 @@ const QuizResults = ({
       
       {/* Question results */}
       <div className="space-y-6">
-        {results.map((result) => {
-          const question = getQuestionById(result.question_id);
-          if (!question) return null;
+        {questions.map((question) => {
+          const result = results.find(r => r.question_id === question.id);
+          const userAnswer = userAnswers[question.id] || 'No answer provided';
+          const isCorrect = result?.is_correct || false;
+          const questionType = question.question_type || question.type;
           
           return (
             <div 
-              key={result.question_id}
-              className={`p-4 rounded-lg border ${result.is_correct ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}
+              key={question.id}
+              className={`p-4 rounded-lg border ${isCorrect ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}
             >
               <div className="flex justify-between items-start">
-                <h3 className="text-md font-medium">{question.question}</h3>
-                <span className={`px-2 py-1 text-xs font-medium rounded-full ${result.is_correct ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                  {result.is_correct ? 'Correct' : 'Incorrect'}
+                <div>
+                  <h3 className="text-md font-medium">{question.question}</h3>
+                  <span className="text-xs text-gray-500">{formatQuestionType(questionType)}</span>
+                </div>
+                <span className={`px-2 py-1 text-xs font-medium rounded-full ${isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                  {isCorrect ? 'Correct' : 'Incorrect'}
                 </span>
               </div>
               
@@ -79,29 +90,29 @@ const QuizResults = ({
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="font-medium text-gray-700">Your Answer:</p>
-                    <p className={`mt-1 ${result.is_correct ? 'text-green-700' : 'text-red-700'}`}>
-                      {userAnswers[question.id] || 'No answer provided'}
+                    <p className={`mt-1 ${isCorrect ? 'text-green-700' : 'text-red-700'}`}>
+                      {userAnswer}
                     </p>
                   </div>
                   
-                  {!result.is_correct && (
-                    <div>
-                      <p className="font-medium text-gray-700">Correct Answer:</p>
-                      <p className="mt-1 text-green-700">{question.correct_answer}</p>
-                    </div>
-                  )}
+                  <div>
+                    <p className="font-medium text-gray-700">Correct Answer:</p>
+                    <p className="mt-1 text-green-700">{question.correct_answer}</p>
+                  </div>
                 </div>
                 
-                {result.explanation && (
+                {question.explanation && (
                   <div className="mt-3">
                     <p className="font-medium text-gray-700">Explanation:</p>
-                    <p className="mt-1 text-gray-600">{result.explanation}</p>
+                    <p className="mt-1 text-gray-600">{question.explanation}</p>
                   </div>
                 )}
                 
-                <div className="mt-3 text-xs text-gray-500">
-                  Response time: {formatResponseTime(result.response_time_ms)}
-                </div>
+                {result && (
+                  <div className="mt-3 text-xs text-gray-500">
+                    Response time: {formatResponseTime(result.response_time_ms)}
+                  </div>
+                )}
               </div>
             </div>
           );

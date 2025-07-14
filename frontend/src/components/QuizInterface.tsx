@@ -66,7 +66,9 @@ const QuizInterface = ({
   };
   
   const renderQuestionContent = () => {
-    switch (currentQuestion.question_type) {
+    const questionType = currentQuestion.question_type || currentQuestion.type;
+    
+    switch (questionType) {
       case 'multiple_choice':
         return (
           <div className="space-y-3">
@@ -166,7 +168,7 @@ const QuizInterface = ({
           Question {currentQuestionIndex + 1} of {questions.length}
         </span>
         <span className="text-sm font-medium text-gray-500">
-          {currentQuestion.question_type.replace('_', ' ')}
+          {(currentQuestion.question_type || currentQuestion.type)?.replace('_', ' ')}
         </span>
       </div>
       

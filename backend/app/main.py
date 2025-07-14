@@ -1,7 +1,3 @@
-"""
-FastAPI Main Application - Quiz Generator MVP
-Entry point for the Automated Quiz Generator with RAG system
-"""
 
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
@@ -22,17 +18,19 @@ from app.core.dependencies import get_database_manager, get_settings
 from app.api.langchain_routes import router as langchain_router
 from app.api.session_routes import router as session_router
 from app.api.feedback_routes import router as feedback_router
+from services.langchain_rag_service import LangChainRAGService
 
 # Global variables for app state
 db_manager = None
 settings = None
+rag_service = None  # Add global RAG service
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """
     Application lifespan events - startup and shutdown
     """
-    global db_manager, settings
+    global db_manager, settings, rag_service
     
     # Startup
     print("🚀 Starting Quiz Generator application...")
@@ -44,6 +42,20 @@ async def lifespan(app: FastAPI):
     db_manager = DatabaseManager(settings.database_url)
     db_manager.create_indexes()
     
+    # Initialize RAG service once at startup
+    # print("🔧 Initializing RAG service...")
+    # weaviate_config = settings.get_weaviate_config()
+    # if not weaviate_config.get("cluster_url") and not weaviate_config.get("url"):
+    #     weaviate_config = None
+    
+    # rag_service = LangChainRAGService(
+    #     db_manager=db_manager,
+    #     google_api_key=settings.google_api_key,
+    #     weaviate_config=weaviate_config,
+    #     redis_config=settings.get_redis_config(),
+    # )
+    # print("✅ RAG service initialized successfully!")
+    
     # Cleanup expired sessions
     expired_count = db_manager.cleanup_expired_sessions()
     if expired_count > 0:
@@ -54,6 +66,9 @@ async def lifespan(app: FastAPI):
     
     # Shutdown
     print("📴 Shutting down Quiz Generator application...")
+    # Close connections if needed
+    if rag_service and hasattr(rag_service, 'cleanup'):
+        rag_service.cleanup()
     print("✅ Application shutdown complete!")
 
 # Create FastAPI app

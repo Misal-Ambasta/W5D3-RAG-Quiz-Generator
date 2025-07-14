@@ -6,11 +6,22 @@ import QuizResults from './components/QuizResults';
 import { useSessionStore, type Session } from './store/sessionStore';
 import apiClient from './api/apiClient';
 
+interface QuizResult {
+  question_id: number;
+  is_correct: boolean;
+  user_answer: string;
+  correct_answer: string;
+  explanation: string;
+  response_time_ms: number;
+}
+
 function App() {
   // Application state
   const [currentView, setCurrentView] = useState<'upload' | 'quiz' | 'results'>('upload');
   const [documentId, setDocumentId] = useState<number | null>(null);
   const [topic, setTopic] = useState<string>('');
+  const [difficulty, setDifficulty] = useState<string>('easy');
+  const [questionCount, setQuestionCount] = useState<number>(5);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   
@@ -61,11 +72,16 @@ function App() {
       const sessionData = await apiClient.createSession(documentId, topic, {});
       sessionStore.setSessionData(sessionData as unknown as Session);
       
-      // Generate quiz using apiClient
-      const quizData = await apiClient.generateQuiz(topic, 5, 'medium');
+      // Generate quiz using apiClient with selected difficulty and question count
+      const quizData = await apiClient.generateQuiz(topic, questionCount, difficulty);
       
       // Set quiz data in store
-      sessionStore.setQuizData((quizData as any).quiz_data.questions);
+      const questions = (quizData as any).quiz_data.questions.map((q: any) => ({
+        ...q,
+        // Ensure question_type is set for backward compatibility
+        question_type: q.question_type || q.type
+      }));
+      sessionStore.setQuizData(questions);
       
       // Navigate to quiz view
       setCurrentView('quiz');
@@ -77,37 +93,43 @@ function App() {
   };
   
   // Handle answer submission
-  const handleAnswerSubmit = async (questionId: number, answer: string) => {
-    if (!sessionStore.session) return;
-    
-    try {
-      // Save answer locally
-      sessionStore.saveAnswer(questionId, answer);
-      
-      // Submit answer to API
-      await apiClient.submitAnswer(sessionStore.session.session_id, questionId, answer);
-    } catch (error) {
-      console.error('Failed to submit answer:', error);
-    }
+  const handleAnswerSubmit = (questionId: number, answer: string) => {
+    // Save answer locally only
+    sessionStore.saveAnswer(questionId, answer);
   };
   
   // Handle quiz completion
   const handleQuizComplete = async () => {
-    if (!sessionStore.session) return;
-    
     setIsLoading(true);
-    
     try {
-      // Get quiz results
-      const resultsData = await apiClient.getQuizResults(sessionStore.session.session_id);
+      // Generate results locally by comparing user answers with correct answers
+      const results: QuizResult[] = [];
+      const userAnswers = sessionStore.userAnswers;
+      const quizQuestions = sessionStore.quizQuestions;
       
-      // Set results in store
-      sessionStore.setResults((resultsData as any).results);
+      quizQuestions.forEach(question => {
+        const userAnswer = userAnswers[question.id];
+        const isCorrect = userAnswer === question.correct_answer;
+        
+        results.push({
+          question_id: question.id,
+          is_correct: isCorrect,
+          user_answer: userAnswer || '',
+          correct_answer: question.correct_answer,
+          explanation: question.explanation || '',
+          response_time_ms: 0 // We don't have response time data when generating locally
+        });
+      });
+      
+      // Set results in session store
+      sessionStore.setResults(results);
+      sessionStore.setIsQuizCompleted(true);
       
       // Navigate to results view
       setCurrentView('results');
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'An error occurred');
+      console.error('Error completing quiz:', error);
+      setError('Failed to complete quiz. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -152,6 +174,38 @@ function App() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="e.g., Photosynthesis, World War II, Quadratic Equations"
             />
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Difficulty
+              </label>
+              <select
+                value={difficulty}
+                onChange={(e) => setDifficulty(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Number of Questions
+              </label>
+              <select
+                value={questionCount}
+                onChange={(e) => setQuestionCount(Number(e.target.value))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {[5, 10, 15, 20, 25].map(count => (
+                  <option key={count} value={count}>{count}</option>
+                ))}
+              </select>
+            </div>
           </div>
           
           <button

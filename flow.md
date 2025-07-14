@@ -66,7 +66,7 @@ sequenceDiagram
 **Endpoint**: `POST /langchain/generate-quiz`
 
 **What happens in the background:**
-1. Frontend sends topic, question_count, difficulty
+1. Frontend sends topic, question_count (5-25), difficulty (easy, medium, hard)
 2. RAG service retrieves relevant document chunks
 3. LangChain tools are invoked for additional context
 4. Gemini service generates quiz questions
@@ -76,7 +76,7 @@ sequenceDiagram
 **Function Call Chain:**
 ```
 Frontend (App.tsx) 
-→ apiClient.generateQuiz() 
+→ apiClient.generateQuiz(topic, questionCount, difficulty) 
 → POST /langchain/generate-quiz 
 → generate_quiz() in routes.py
 → LangChainRAGService.generate_quiz()
@@ -119,7 +119,7 @@ sequenceDiagram
 **What happens in the background:**
 1. Frontend sends document_id, topic, metadata
 2. Session is created with unique session_id
-3. Session data is stored in database
+3. Session data is stored in database and local storage
 4. Session expiration is set
 5. Session object is returned to frontend
 
@@ -131,6 +131,7 @@ Frontend (App.tsx)
 → create_session() in routes.py
 → Database.create_session()
 → Return session data
+→ sessionStore.setSessionData() (saves to localStorage)
 ```
 
 ```mermaid
@@ -139,6 +140,7 @@ sequenceDiagram
     participant A as API
     participant S as SessionStore
     participant DB as Database
+    participant LS as LocalStorage
     
     F->>A: POST /sessions
     A->>S: create_session()
@@ -146,19 +148,15 @@ sequenceDiagram
     DB->>S: session_id
     S->>A: session_data
     A->>F: {session_id, expires_at}
+    F->>LS: Save session data
     
-    Note over F,DB: Quiz Taking Process
+    Note over F,LS: Quiz Taking Process
     
-    F->>A: POST /sessions/{id}/answers
-    A->>S: save_answer()
-    S->>DB: store_answer()
+    F->>LS: Save answer locally
     
-    F->>A: GET /sessions/{id}/results
-    A->>S: calculate_results()
-    S->>DB: get_answers()
-    DB->>S: user_answers
-    S->>A: results
-    A->>F: {score, explanations}
+    F->>F: Calculate results locally
+    F->>LS: Save results
+    F->>F: Display results
 ```
 
 ### 4. Quiz Dataset Search Flow
@@ -324,25 +322,25 @@ sequenceDiagram
 
 1. **Document Upload** → User uploads educational document
 2. **Processing** → Document is processed and indexed
-3. **Topic Input** → User enters desired topic/objective
+3. **Quiz Configuration** → User enters topic, selects difficulty and number of questions
 4. **Session Creation** → Quiz session is created
 5. **Quiz Generation** → Questions are generated using RAG + Gemini
 6. **Quiz Taking** → User answers questions interactively
-7. **Answer Submission** → Each answer is submitted and stored
-8. **Results Generation** → Final results are calculated and displayed
+7. **Answer Submission** → Each answer is saved locally
+8. **Results Generation** → Final results are calculated locally by comparing user answers with correct answers
 
 
 ```mermaid
 flowchart TD
     A[User uploads document] --> B[Document processed & indexed]
-    B --> C[User enters topic]
+    B --> C[User enters topic, selects difficulty & question count]
     C --> D[Session created]
     D --> E[Quiz generated using RAG + Gemini]
     E --> F[User takes quiz]
-    F --> G[Answers submitted]
+    F --> G[Answers saved locally]
     G --> H{More questions?}
     H -->|Yes| F
-    H -->|No| I[Results calculated]
+    H -->|No| I[Results calculated locally]
     I --> J[Results displayed with explanations]
     J --> K{User choice}
     K -->|Retake| F
@@ -381,6 +379,7 @@ flowchart TD
     "metadata": {
       "topic": "Biology",
       "difficulty": "medium",
+      "question_count": 5,
       "generated_by": "gemini"
     }
   }
@@ -437,4 +436,4 @@ sequenceDiagram
 - **Vector Generation**: Batch embedding creation
 - **Cache Warming**: Preload frequently accessed data
 
-This comprehensive flow documentation provides a complete understanding of how the Quiz Generator application works internally, making it easier for developers to understand, debug, and extend the system. 
+This comprehensive flow documentation provides a complete understanding of how the Quiz Generator application works internally, making it easier for developers to understand, debug, and extend the system.
